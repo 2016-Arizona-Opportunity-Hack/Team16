@@ -21,7 +21,7 @@
 
 <div class="container col-sm-6 col-sm-offset-3 ">
     <div class="well">
-        <c:url var="formAction" value="/event"/>
+        <c:url var="formAction" value="/event/insert"/>
         <form:form method="post"
                    class="form-horizontal" commandName="event" action="${formAction}">
             <legend>Add Event</legend>
