@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
 
@@ -54,6 +55,33 @@ public class PageDAOImpl implements PageDAO {
 		DBObject dbObj = collection.findOne(query);
 		dbObj.put("_id", dbObj.get("_id").toString());
 		return dbObj.toString();
+	}
+
+	@Override
+	public String getAllPages() {
+		DBCollection collection = mongoTemplate.getCollection("page");
+		DBCursor cursor = collection.find();
+
+		// TODO Auto-generated method stub
+		return c2a(cursor);
+	}
+
+	public String c2a(DBCursor cursor) {
+		String results = "[";
+
+		int i = 0;
+		try {
+			while (cursor.hasNext()) {
+				if (i != 0)
+					results += ",";
+				results += cursor.next();
+				++i;
+			}
+		} finally {
+			cursor.close();
+		}
+		results += "]";
+		return results;
 	}
 
 }

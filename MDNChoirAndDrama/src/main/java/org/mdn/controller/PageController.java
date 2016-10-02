@@ -47,6 +47,12 @@ public class PageController {
 
 	}
 
+	@RequestMapping(value = "/all", method = RequestMethod.GET)
+	public ResponseEntity<String> getAllPages() {
+		String response = pageDAO.getAllPages();
+		return new ResponseEntity<String>(response, HttpStatus.OK);
+	}
+
 	private String jsonifyID(String id) {
 		return "{\"_id\":\"" + id + "\"}";
 	}
