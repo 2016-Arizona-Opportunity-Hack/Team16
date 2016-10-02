@@ -28,13 +28,14 @@ const initialState = {
   },
   navigation: [],
   pages: [],
-  isEditing: false
+  isEditing: false,
+  isFetching: false
 };
 
 export default function reducer(state = initialState, action = {}) {
+  const currentPage = state.currentPage;
   switch (action.type) {
     case UPDATE_PAGE_HEADING:
-      const currentPage = state.currentPage;
       return {
         ...state,
         currentPage: {
@@ -43,8 +44,19 @@ export default function reducer(state = initialState, action = {}) {
         }
       };
     case UPDATE_PAGE_SECTION:
-      return state;
-      break;
+      const sections = [
+        ...currentPage.sections
+      ];
+      sections[action.index] = {
+        ...action.section
+      };
+      return {
+        ...state,
+        currentPage: {
+          ...currentPage,
+          sections
+        }
+      };
     default:
       return state;
   }
@@ -57,10 +69,11 @@ export function updatePageHeader(header) {
   };
 }
 
-export function updateSection(index, section) {
+export function updatePageSection(index, section) {
+  console.log('here');
   return {
     type: UPDATE_PAGE_SECTION,
     section,
     index
-  }
+  };
 }

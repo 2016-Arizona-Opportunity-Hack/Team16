@@ -18,7 +18,8 @@ export default class Page extends Component {
   static propTypes = {
     page: PropTypes.object.isRequired,
     isEditing: PropTypes.bool.isRequired,
-    updatePageHeader: PropTypes.func.isRequired
+    updatePageHeader: PropTypes.func.isRequired,
+    updatePageSection: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -36,9 +37,14 @@ export default class Page extends Component {
 
   _editClick() {
     const { isEditing } = this.state;
+    const { page } = this.props;
     if (isEditing) {
       const header = this.refs.header.value;
       if (header && header.trim().length > 0) {
+        const newPage = {
+          ...page,
+          header
+        };
         this.props.updatePageHeader(header.trim());
       }
     }
@@ -65,7 +71,7 @@ export default class Page extends Component {
   render() {
     const { sections, header, _id } = this.props.page;
     const { isEditing } = this.state;
-    let index = 0;
+    let index = -1;
     return (
       <div className={ styles.page + ' container' }>
         { this._renderEditButton() }
@@ -88,7 +94,8 @@ export default class Page extends Component {
                 <Section section={section}
                          key={ index }
                          index={ index }
-                         pageId={ _id } />
+                         pageId={ _id }
+                         updatePageSection={ this.props.updatePageSection } />
               );
             })
           }

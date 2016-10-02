@@ -10,7 +10,8 @@ export default class Section extends Component {
   static propTypes = {
     section: PropTypes.object.isRequired,
     pageId: PropTypes.string.isRequired,
-    index: PropTypes.number.isRequired
+    index: PropTypes.number.isRequired,
+    updatePageSection: PropTypes.func.isRequired
   };
 
   state = {
@@ -21,6 +22,45 @@ export default class Section extends Component {
     const { isEditing } = this.state;
     if (isEditing) {
       // update or delete
+      const { content } = this.props.section;
+      const newContent = { ...content };
+      const header = this.refs.header.value;
+      const section = {
+        ...this.props.section
+      };
+      console.log(content, header, section);
+      switch (content.type) {
+        case 'text':
+          const text = this.refs.text.value;
+          if (
+            header &&
+            header.trim().length > 0 &&
+            text &&
+            text.trim().length > 0
+          ) {
+            section.header = header;
+            newContent.text = text;
+            section.content = newContent;
+            this.props.updatePageSection(this.props.index, section);
+          }
+          break;
+        case 'image':
+          const url = this.refs.url.value;
+          if (
+            header &&
+            header.trim().length > 0 &&
+            url &&
+            url.trim().length > 0
+          ) {
+            section.header = header;
+            newContent.url = url;
+            section.content = newContent;
+            this.props.updatePageSection(this.props.index, section);
+          }
+          break;
+        default:
+          break;
+      }
     }
     this.setState({
       isEditing: !isEditing
