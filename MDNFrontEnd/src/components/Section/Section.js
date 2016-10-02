@@ -16,8 +16,17 @@ export default class Section extends Component {
   };
 
   state = {
-    isEditing: false
+    isEditing: false,
+    isUp: false
   };
+
+  _mouseLeave() {
+    this.setState({ isUp: false });
+  }
+
+  _mouseEnter() {
+    this.setState({ isUp: true });
+  }
 
   _editClick() {
     const { isEditing } = this.state;
@@ -74,6 +83,7 @@ export default class Section extends Component {
       ? <i className="fa fa-check"></i>
       : <i className="fa fa-edit"></i>;
     const className = isEditing ? 'btn-success' : 'btn-primary';
+    if (!this.state.isUp) return null;
     return (
       <div className={styles.edit}>
         <button className={ `btn ${className}` }
@@ -172,7 +182,9 @@ export default class Section extends Component {
   }
   render() {
     return (
-      <div className={ styles.section }>
+      <div className={ styles.section }
+           onMouseEnter={ this._mouseEnter.bind(this) }
+           onMouseLeave={ this._mouseLeave.bind(this) }>
         { this._renderEditAndDelete() }
         { this.renderSection() }
       </div>
