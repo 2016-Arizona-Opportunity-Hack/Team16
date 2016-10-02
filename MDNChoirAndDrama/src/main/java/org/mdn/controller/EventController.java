@@ -6,6 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created on 10/2/2016.
  */
@@ -18,5 +21,12 @@ public class EventController {
         Event event = new Event();
         model.addAttribute("event", event);
         return "admin/event_form";
+    }
+
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public String getAllEvents(Model model) {
+        List<Event> events = new ArrayList<>();
+        model.addAttribute("events", events);
+        return "admin/all_events";
     }
 }

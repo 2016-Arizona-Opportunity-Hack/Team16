@@ -25,6 +25,7 @@
         <form:form method="post"
                    class="form-horizontal" commandName="event" action="${formAction}">
             <legend>Add Event</legend>
+            <form:input path="_id" type="hidden" />
             <div class="form-group">
                 <label class="col-sm-4 control-label" for="title">Title</label>
                 <div class="col-sm-7">
