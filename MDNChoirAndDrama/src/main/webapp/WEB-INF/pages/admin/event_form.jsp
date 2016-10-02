@@ -49,6 +49,13 @@
                     <form:input path="endTimeString" class="form-control" type="text"/>
                 </div>
             </div>
+            <div class="form-group">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-7">
+                    <input type="submit" id="submit" class="btn btn-primary btn-lg btn-sm-10"
+                           value="Add Event">
+                </div>
+            </div>
         </form:form>
     </div>
 
