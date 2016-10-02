@@ -41,13 +41,15 @@ export default class Page extends Component {
     updatePageHeader: PropTypes.func.isRequired,
     updatePageSection: PropTypes.func.isRequired,
     updatePageId: PropTypes.func.isRequired,
-    addPageSection: PropTypes.func.isRequired
+    addPageSection: PropTypes.func.isRequired,
+    deleteSection: PropTypes.func.isRequired
   };
 
   constructor(props) {
     super(props);
     this._typing = this._typing.bind(this);
     this._addPageSection = this._addPageSection.bind(this);
+    this._deleteSection = this._deleteSection.bind(this);
   }
 
   state = {
@@ -161,6 +163,18 @@ export default class Page extends Component {
     );
   }
 
+  _deleteSection(index) {
+    const { page } = this.props;
+    const sections = [...page.sections];
+    sections.splice(index, 1);
+    const newPage = {
+      ...page,
+      sections
+    };
+    this._sendAjaxRequest(newPage);
+    this.props.deleteSection(index);
+  }
+
   render() {
     const { sections, header } = this.props.page;
     const { isEditing } = this.state;
@@ -188,7 +202,8 @@ export default class Page extends Component {
                          key={ index }
                          index={ index }
                          pageId={ 'nothing' }
-                         updatePageSection={ this._updatePageSection.bind(this) } />
+                         updatePageSection={ this._updatePageSection.bind(this) }
+                         deleteSection={ this._deleteSection } />
               );
             })
           }

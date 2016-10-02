@@ -63,7 +63,7 @@ export default function reducer(state = initialState, action = {}) {
         }
       };
     case DELETE_SECTION:
-      const deleteUpdateSections = [...sections];
+      const deleteUpdateSections = [...currentPage.sections];
       deleteUpdateSections.splice(action.index, 1);
       return {
         ...state,

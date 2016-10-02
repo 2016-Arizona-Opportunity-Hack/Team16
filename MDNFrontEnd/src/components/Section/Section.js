@@ -11,7 +11,8 @@ export default class Section extends Component {
     section: PropTypes.object.isRequired,
     pageId: PropTypes.string.isRequired,
     index: PropTypes.number.isRequired,
-    updatePageSection: PropTypes.func.isRequired
+    updatePageSection: PropTypes.func.isRequired,
+    deleteSection: PropTypes.func.isRequired
   };
 
   state = {
@@ -79,11 +80,16 @@ export default class Section extends Component {
                 onClick={ () => this._editClick() }>
           { editText }
         </button>
-        <button className="btn btn-danger">
+        <button className="btn btn-danger"
+                onClick={ () => this._deleteSection() }>
           <i className="fa fa-remove"></i>
         </button>
       </div>
     );
+  }
+
+  _deleteSection() {
+    this.props.deleteSection(this.props.index);
   }
 
   renderSectionContent() {
@@ -164,7 +170,6 @@ export default class Section extends Component {
     }
     return null;
   }
-
   render() {
     return (
       <div className={ styles.section }>
