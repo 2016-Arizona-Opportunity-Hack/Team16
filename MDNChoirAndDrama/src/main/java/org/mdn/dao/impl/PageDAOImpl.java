@@ -45,4 +45,14 @@ public class PageDAOImpl implements PageDAO {
 		return pageid;
 	}
 
+	@Override
+	public String get(String pageid) {
+		DBCollection collection = mongoTemplate.getCollection("page");
+		BasicDBObject query = new BasicDBObject();
+		query.put("_id", new ObjectId(pageid));
+		DBObject dbObj = collection.findOne(query);
+		dbObj.put("_id", dbObj.get("_id").toString());
+		return dbObj.toString();
+	}
+
 }

@@ -7,4 +7,6 @@ public interface PageDAO {
 	String update(String pageid, String json);
 
 	String delete(String pageid);
+
+	String get(String pageid);
 }

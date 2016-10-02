@@ -20,7 +20,7 @@ public class PageController {
 	@RequestMapping(value = { "/insert" }, method = RequestMethod.POST)
 	public ResponseEntity<String> insertPage(@RequestBody String json) {
 
-		String response = pageDAO.insert(json);
+		String response = jsonifyID(pageDAO.insert(json));
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 
 	}
@@ -28,7 +28,7 @@ public class PageController {
 	@RequestMapping(value = { "/delete/{pageid}" })
 	public ResponseEntity<String> deletePage(@PathVariable("pageid") String pageid) {
 
-		String response = pageDAO.delete(pageid);
+		String response = jsonifyID(pageDAO.delete(pageid));
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 
 	}
@@ -36,9 +36,21 @@ public class PageController {
 	@RequestMapping(value = { "/update/{pageid}" }, method = RequestMethod.POST)
 	public ResponseEntity<String> updatePage(@RequestBody String json, @PathVariable("pageid") String pageid) {
 
-		String response = pageDAO.update(pageid, json);
+		String response = jsonifyID(pageDAO.update(pageid, json));
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 
+	}
+
+	@RequestMapping(value = { "/get/{pageid}" }, method = RequestMethod.POST)
+	public ResponseEntity<String> getPage(@PathVariable("pageid") String pageid) {
+
+		String response = pageDAO.get(pageid);
+		return new ResponseEntity<String>(response, HttpStatus.OK);
+
+	}
+
+	private String jsonifyID(String id) {
+		return "{\"_id\":\"" + id + "\"}";
 	}
 
 }
