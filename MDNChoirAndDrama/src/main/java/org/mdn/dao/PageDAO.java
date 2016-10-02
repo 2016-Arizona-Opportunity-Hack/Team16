@@ -9,4 +9,6 @@ public interface PageDAO {
 	String delete(String pageid);
 
 	String get(String pageid);
+
+	String getAllPages();
 }
