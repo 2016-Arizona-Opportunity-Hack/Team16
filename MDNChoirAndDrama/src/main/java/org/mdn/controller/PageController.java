@@ -5,12 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
+@CrossOrigin
 @RequestMapping(value = { "/page" })
 public class PageController {
 
@@ -41,7 +39,7 @@ public class PageController {
 
 	}
 
-	@RequestMapping(value = { "/get/{pageid}" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/get/{pageid}" }, method = RequestMethod.GET)
 	public ResponseEntity<String> getPage(@PathVariable("pageid") String pageid) {
 
 		String response = pageDAO.get(pageid);

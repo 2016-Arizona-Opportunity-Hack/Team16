@@ -32,6 +32,7 @@ public class PageDAOImpl implements PageDAO {
 	public String update(String pageid, String json) {
 		DBCollection collection = mongoTemplate.getCollection("page");
 		DBObject dbObject = (DBObject) JSON.parse(json);
+        dbObject.put("_id", new ObjectId(pageid));
 		collection.update(new BasicDBObject("_id", new ObjectId(pageid)), dbObject, true, false);
 		return pageid;
 	}
