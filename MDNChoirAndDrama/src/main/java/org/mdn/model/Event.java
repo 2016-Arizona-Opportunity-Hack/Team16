@@ -11,6 +11,8 @@ public class Event {
     private String description;
     private Date startTime;
     private Date endTime;
+    private String startTimeString;
+    private String endTimeString;
 
     public Date getEndTime() {
         return endTime;
@@ -50,5 +52,21 @@ public class Event {
 
     public void set_id(String _id) {
         this._id = _id;
+    }
+
+    public String getStartTimeString() {
+        return startTimeString;
+    }
+
+    public void setStartTimeString(String startTimeString) {
+        this.startTimeString = startTimeString;
+    }
+
+    public String getEndTimeString() {
+        return endTimeString;
+    }
+
+    public void setEndTimeString(String endTimeString) {
+        this.endTimeString = endTimeString;
     }
 }

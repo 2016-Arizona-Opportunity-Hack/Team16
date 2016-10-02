@@ -1,6 +1,8 @@
 package org.mdn.controller;
 
+import org.mdn.model.Event;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -12,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class EventController {
 
     @RequestMapping(method = RequestMethod.GET)
-    public String getEventForm() {
-        return "WEB-INF/pages/admin/event_form";
+    public String getEventForm(Model model) {
+        Event event = new Event();
+        model.addAttribute("event", event);
+        return "admin/event_form";
     }
 }
