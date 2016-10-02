@@ -1,0 +1,15 @@
+/**
+ * Created by Vikranth on 10/1/2016.
+ */
+
+.page {
+  position: relative;
+  h1 > input {
+    width: 100%;
+  }
+}
+
+.edit {
+  position: absolute;
+  right: 0;
+}

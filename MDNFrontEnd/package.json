@@ -29,7 +29,6 @@
     "start-prod-api": "better-npm-run start-prod-api",
     "build": "better-npm-run build",
     "postinstall": "npm run build",
-    "lint": "eslint -c .eslintrc src api",
     "start-dev": "better-npm-run start-dev",
     "start-dev-api": "better-npm-run start-dev-api",
     "watch-client": "better-npm-run watch-client",
@@ -90,6 +89,7 @@
     }
   },
   "dependencies": {
+    "ajax-request": "^1.2.1",
     "babel-core": "^6.5.2",
     "babel-loader": "^6.2.1",
     "babel-plugin-add-module-exports": "^0.1.2",
@@ -137,7 +137,8 @@
     "superagent": "^1.4.0",
     "url-loader": "^0.5.7",
     "warning": "^2.1.0",
-    "webpack-isomorphic-tools": "^2.2.18"
+    "webpack-isomorphic-tools": "^2.2.18",
+    "whatwg-fetch": "file:node_modules\\whatwg-fetch"
   },
   "devDependencies": {
     "autoprefixer-loader": "^3.1.0",
