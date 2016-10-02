@@ -1,7 +1,7 @@
 package org.mdn.dao;
 
 import java.text.ParseException;
-import java.util.ArrayList;
+import java.util.List;
 
 import org.mdn.model.Event;
 
@@ -14,6 +14,6 @@ public interface EventDAO {
 
 	Event get(String eventid);
 
-	ArrayList<String> getEventList();
+	List<Event> getEventList();
 
 }

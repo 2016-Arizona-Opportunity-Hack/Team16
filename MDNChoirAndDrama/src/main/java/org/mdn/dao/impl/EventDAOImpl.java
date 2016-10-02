@@ -2,7 +2,6 @@ package org.mdn.dao.impl;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class EventDAOImpl implements EventDAO {
 
 	@Override
 	public String insert(Event event) throws ParseException {
-		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd//yyyy hh:mm");
+		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm");
 		Date strdate = formatter.parse(event.getStartTimeString());
 		event.setStartTime(strdate);
 
@@ -60,11 +59,8 @@ public class EventDAOImpl implements EventDAO {
 	}
 
 	@Override
-	public ArrayList<String> getEventList() {
-		List<Event> list = mongoTemplate.findAll(Event.class);
-		ArrayList<String> arr = new ArrayList<>();
-		list.forEach(x -> arr.add(x.getTitle()));
-		return arr;
+	public List<Event> getEventList() {
+		return mongoTemplate.findAll(Event.class, EVENT_COLLECTION);
 	}
 
 }
