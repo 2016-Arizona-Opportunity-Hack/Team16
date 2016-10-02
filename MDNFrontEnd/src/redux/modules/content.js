@@ -2,6 +2,9 @@
  * Created by Vikranth on 10/1/2016.
  */
 
+const UPDATE_PAGE_HEADING = 'UPDATE_PAGE_HEADING';
+const UPDATE_PAGE_SECTION = 'UPDATE_PAGE_SECTION';
+
 const initialState = {
   currentPage: {
     _id: '1',
@@ -28,6 +31,36 @@ const initialState = {
   isEditing: false
 };
 
-export default function reducer(state = initialState) {
-  return state;
+export default function reducer(state = initialState, action = {}) {
+  switch (action.type) {
+    case UPDATE_PAGE_HEADING:
+      const currentPage = state.currentPage;
+      return {
+        ...state,
+        currentPage: {
+          ...currentPage,
+          header: action.header
+        }
+      };
+    case UPDATE_PAGE_SECTION:
+      return state;
+      break;
+    default:
+      return state;
+  }
+}
+
+export function updatePageHeader(header) {
+  return {
+    type: UPDATE_PAGE_HEADING,
+    header: header
+  };
+}
+
+export function updateSection(index, section) {
+  return {
+    type: UPDATE_PAGE_SECTION,
+    section,
+    index
+  }
 }
