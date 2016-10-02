@@ -5,26 +5,15 @@
 const UPDATE_PAGE_HEADING = 'UPDATE_PAGE_HEADING';
 const UPDATE_PAGE_SECTION = 'UPDATE_PAGE_SECTION';
 
+const ADD_PAGE_SECTION = 'ADD_PAGE_SECTION';
+const UPDATE_PAGE_ID = 'UPDATE_PAGE_ID';
+const DELETE_SECTION = 'DELETE_SECTION';
+
 const initialState = {
   currentPage: {
-    _id: '1',
-    title: 'This is the page title',
-    header: 'This is the header content',
-    sections: [{
-      type: 'full',
-      content: {
-        type: 'text',
-        text: 'this is the first one I am seeing'
-      },
-      header: 'section 1'
-    }, {
-      type: 'full',
-      content: {
-        type: 'image',
-        url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmzMFjujgib4Md4MHoGD4VoIDwqjaG3DDrylUns_rY8dgSuybA'
-      },
-      header: 'section 2'
-    }]
+    title: 'Sample title',
+    header: 'Sample heading',
+    sections: []
   },
   navigation: [],
   pages: [],
@@ -57,6 +46,32 @@ export default function reducer(state = initialState, action = {}) {
           sections
         }
       };
+    case UPDATE_PAGE_ID:
+      return {
+        ...state,
+        currentPage: {
+          ...currentPage,
+          _id: action._id
+        }
+      };
+    case ADD_PAGE_SECTION:
+      return {
+        ...state,
+        currentPage: {
+          ...currentPage,
+          sections: [...currentPage.sections, action.section]
+        }
+      };
+    case DELETE_SECTION:
+      const deleteUpdateSections = [...sections];
+      deleteUpdateSections.splice(action.index, 1);
+      return {
+        ...state,
+        currentPage: {
+          ...currentPage,
+          sections: deleteUpdateSections
+        }
+      };
     default:
       return state;
   }
@@ -70,10 +85,30 @@ export function updatePageHeader(header) {
 }
 
 export function updatePageSection(index, section) {
-  console.log('here');
   return {
     type: UPDATE_PAGE_SECTION,
     section,
+    index
+  };
+}
+
+export function addPageSection(section) {
+  return {
+    type: ADD_PAGE_SECTION,
+    section
+  };
+}
+
+export function updatePageId(_id) {
+  return {
+    type: UPDATE_PAGE_ID,
+    _id
+  };
+}
+
+export function deleteSection(index) {
+  return {
+    type: DELETE_SECTION,
     index
   };
 }

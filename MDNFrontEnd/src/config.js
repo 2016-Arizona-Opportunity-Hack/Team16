@@ -2,10 +2,12 @@ require('babel-polyfill');
 
 const environment = {
   development: {
-    isProduction: false
+    isProduction: false,
+    server: 'http://localhost:8081'
   },
   production: {
-    isProduction: true
+    isProduction: true,
+    server: 'http://localhost:8081'
   }
 }[process.env.NODE_ENV || 'development'];
 
@@ -35,5 +37,8 @@ module.exports = Object.assign({
       ]
     }
   },
-
+  page: {
+    insert: 'page/insert',
+    update: 'page/update'
+  }
 }, environment);

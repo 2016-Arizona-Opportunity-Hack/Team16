@@ -7,6 +7,26 @@ import {connect} from 'react-redux';
 import Section from 'components/Section/Section';
 import styles from './Page.scss';
 import * as pageActions from 'redux/modules/content';
+import Ajax from 'simple-ajax';
+import config from '../../config';
+
+export const initImageSection = {
+  type: 'full',
+  header: 'Image header',
+  content: {
+    type: 'image',
+    url: 'http://www.tattooshunter.com/wp-content/uploads/2015/07/head-tattoo-beautiful-new-tiger-sample.jpg'
+  }
+};
+
+export const initTextSection = {
+  type: 'full',
+  header: 'Text section',
+  content: {
+    type: 'text',
+    text: 'Sample text'
+  }
+};
 
 @connect(
   state => ({
@@ -19,12 +39,15 @@ export default class Page extends Component {
     page: PropTypes.object.isRequired,
     isEditing: PropTypes.bool.isRequired,
     updatePageHeader: PropTypes.func.isRequired,
-    updatePageSection: PropTypes.func.isRequired
+    updatePageSection: PropTypes.func.isRequired,
+    updatePageId: PropTypes.func.isRequired,
+    addPageSection: PropTypes.func.isRequired
   };
 
   constructor(props) {
     super(props);
     this._typing = this._typing.bind(this);
+    this._addPageSection = this._addPageSection.bind(this);
   }
 
   state = {
@@ -33,6 +56,46 @@ export default class Page extends Component {
   };
 
   _typing() {
+  }
+
+  _sendAjaxRequest(page) {
+    const url = page._id
+      ? config.server + '/' + config.page.update + '/' + page._id
+      : config.server + '/' + config.page.insert;
+    const ajax = new Ajax({
+      url,
+      method: 'POST',
+      dataType: 'json',
+      data: page,
+      processData: true
+    });
+    ajax.on('error', (error) => {
+      // handle error
+      console.log(error);
+    });
+    ajax.on('success', (result) => {
+      // update the current page id
+      console.log(result);
+      const data = JSON.parse(result.target.responseText);
+      if (!page._id) {
+        this.props.updatePageId(data._id);
+      }
+    });
+    ajax.on('complete', (ev) => {
+      // do nothing
+      console.log(ev);
+    });
+    ajax.send();
+  }
+
+  _updatePageSection(index, section) {
+    const { page } = this.props;
+    const sections = [ ...page.sections ];
+    sections[index] = { ...section };
+    const newPage = { ...page, sections };
+    console.log(newPage);
+    this._sendAjaxRequest(newPage);
+    this.props.updatePageSection(index, section);
   }
 
   _editClick() {
@@ -45,6 +108,8 @@ export default class Page extends Component {
           ...page,
           header
         };
+        console.log('before ajax request');
+        this._sendAjaxRequest(newPage);
         this.props.updatePageHeader(header.trim());
       }
     }
@@ -68,8 +133,36 @@ export default class Page extends Component {
     );
   }
 
+  _addPageSection(type) {
+    let section = type === 'text' ? initTextSection : initImageSection;
+    const page = this.props.page;
+    section = JSON.parse(JSON.stringify(section));
+    // append the new page after creating the section
+    const newPage = {
+      ...page,
+      sections: [...page.sections, section]
+    };
+    this.props.addPageSection(section);
+    this._sendAjaxRequest(newPage);
+  }
+
+  _renderOtherButtons() {
+    return (
+      <div>
+        <div>
+          <button className="btn btn-lg"
+                  onClick={ () => this._addPageSection('text') }>Add text section</button>
+        </div>
+        <div>
+          <button className="btn btn-lg"
+                  onClick={ () => this._addPageSection('image') }>Add image section</button>
+        </div>
+      </div>
+    );
+  }
+
   render() {
-    const { sections, header, _id } = this.props.page;
+    const { sections, header } = this.props.page;
     const { isEditing } = this.state;
     let index = -1;
     return (
@@ -94,12 +187,13 @@ export default class Page extends Component {
                 <Section section={section}
                          key={ index }
                          index={ index }
-                         pageId={ _id }
-                         updatePageSection={ this.props.updatePageSection } />
+                         pageId={ 'nothing' }
+                         updatePageSection={ this._updatePageSection.bind(this) } />
               );
             })
           }
         </div>
+        { this._renderOtherButtons() }
       </div>
     );
   }
